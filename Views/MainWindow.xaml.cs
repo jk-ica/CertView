@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CertView.ViewModels;
+using CertView.Services;
 
 namespace CertView.Views
 {
@@ -17,20 +18,11 @@ namespace CertView.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainViewModel ViewModel { get; set; } = new MainViewModel();
+        internal MainViewModel ViewModel { get; set; } = new MainViewModel(new DummyPickerService(), new DummyReaderService());
         public MainWindow()
         {
             InitializeComponent();
             DataContext = ViewModel;
-        }
-        private void Browse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
