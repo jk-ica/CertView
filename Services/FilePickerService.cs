@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace CertView.Services
+namespace CertView.Services;
+
+internal class FilePickerService : IFilePickerService
 {
-    internal class FilePickerService
+    public FileInfo? PickFile()
     {
-        public static FileInfo? PickFile()
+        var openFileDialog = new Microsoft.Win32.OpenFileDialog
         {
-            // Implement file picking logic here
-            // For example, you can use OpenFileDialog in a WPF application
-            // or any other method suitable for your application type.
-            throw new NotImplementedException("File picking logic is not implemented.");
-        }
-        
+            Filter = "Certificate Files (*.pfx,*.cer)|*.pfx;*.cer|All Files (*.*)|*.*",
+            Title = "Select a Certificate File"
+        };
+
+        return openFileDialog.ShowDialog() == true 
+            ? new FileInfo(openFileDialog.FileName) 
+            : null;
     }
+
 }
