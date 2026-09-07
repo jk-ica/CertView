@@ -11,18 +11,25 @@ using System.Windows.Shapes;
 using CertView.ViewModels;
 using CertView.Services;
 
-namespace CertView.Views
+namespace CertView.Views;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+#if !DUMMY
+    private readonly IFilePickerService filePickerService = new FilePickerService();
+    private readonly ICertificateReaderService certificateReaderService = new CertificateReaderService();
+#else
+    private readonly IFilePickerService filePickerService = new DummyPickerService();
+    private readonly ICertificateReaderService certificateReaderService = new DummyReaderService();
+#endif
+    internal MainViewModel ViewModel { get;} 
+    public MainWindow()
     {
-        internal MainViewModel ViewModel { get; set; } = new MainViewModel(new DummyPickerService(), new DummyReaderService());
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = ViewModel;
-        }
+        InitializeComponent();
+        ViewModel = new MainViewModel(filePickerService,certificateReaderService);
+        DataContext = ViewModel;
     }
 }
